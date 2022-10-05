@@ -10,14 +10,13 @@
     <meta name="author" content="">    
     <title>{% block title %}{% endblock title%}</title>
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    {% compress css %}
+<!--     {% compress css %}    {% endcompress css %} -->
     <link href="/static/css/style.min.css" rel="stylesheet">
     <style type="text/css">
         .nav-link{
             font-weight: 500;
         }
     </style>
-    {% endcompress %}
 </head>
 
 <body id="page-top">
@@ -124,7 +123,7 @@
     </div>
 </div>
 
-    {% compress js %}
+<!--     {% compress js %}    {% endcompress %} -->
         <script src="/static/js/jquery.min.js"></script>
         <script src="/static/js/sb-admin-2.min.js"></script>
         <script src="/static/vendor/jquery/jquery.min.js"></script>
@@ -141,25 +140,10 @@
         <script type="text/javascript" src="{% static 'js/htmx.min.js' %}"></script>
         {%else%}
         {% endif %}
-    {% endcompress %}
+
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

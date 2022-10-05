@@ -1,6 +1,6 @@
-import django_heroku
+# import django_heroku
 import os
-import dj_database_url 
+# import dj_database_url 
 from django.core.wsgi import get_wsgi_application 
 from django.contrib.messages import constants as messages
 # import cloudinary
@@ -21,7 +21,7 @@ SECRET_KEY = 'django-secure-_f^0*0!to5d@wcjv%%!b4n=_mp(y468*u@k(m1^tauut58_&n$'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','.vercel.app','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','.vercel.app','127.0.0.1','.repl.co']
 
 
 X_FRAME_OPTIONS = 'ALLOW'
@@ -201,4 +201,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
