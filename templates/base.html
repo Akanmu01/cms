@@ -1,0 +1,172 @@
+{%load compress%}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">    
+    <title>{% block title %}{% endblock title%}</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    {% compress css %}
+    <link href="/static/css/style.min.css" rel="stylesheet">
+    <style type="text/css">
+        .nav-link{
+            font-weight: 500;
+        }
+    </style>
+    {% endcompress %}
+</head>
+
+<body id="page-top">
+<div id="app" hx-swap="innerHTML swap:0.1s" hx-boost="true">
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <div id="content">
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_student %}
+                        <li class="nav-item">
+                          <a class="text-dark nav-link{% if active == 'new' %} active{% endif %}" href="{% url 'students:quiz_list' %}" hx-push-url="true">
+                          <span>Home</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="text-dark nav-link{% if active == 'taken' %} active{% endif %}" href="{% url 'students:taken_quiz_list' %}" delay="0.1">
+                            <span>Taken</span></a>
+                        </li>
+                    {% elif user.is_teacher %}
+                        <li class="nav-item">
+                            <a class="text-dark nav-link{% if active == 'new' %} active{% endif %}" href="{% url 'teachers:quiz_change_list' %}"  delay="0.1">
+                            <span>Home</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="text-dark nav-link{% if active == 'taken' %} active{% endif %}" href="{% url 'teachers:quiz_add' %}" delay="0.1">
+                            <span>Add Quiz</span></a>
+                        </li>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="text-dark nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{user.username | upper }}</span>
+                                <img class="img-profile rounded-circle"
+                                    src="/static/img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item{% if active ==  'profile' %} active{% endif %}" href="/user/{{ user.username }}">
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    Activity Log
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    Logout 
+                                </a>                                
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                          <a class="text-dark nav-link" href="{% url 'home' %}" hx-push-url="true">
+                          <span>Home</span></a>
+                        </li>
+
+                        <li class="nav-item">
+                          <a class="text-dark nav-link" href="{% url 'login' %}" hx-push-url="true">
+                          <span>Sign in</span></a>
+                        </li>
+
+                        <li class="nav-item">
+                          <a class="text-dark nav-link" href="{% url 'signup' %}" hx-push-url="true">
+                          <span>Sign Up</span></a>
+                        </li>   
+                    {% endif %}
+                </ul>
+            </nav>
+            
+            <div class="container-fluid">
+                {% block content %}{% endblock %}
+            </div>
+        </div>        
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; CMS 2022</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {% compress js %}
+        <script src="/static/js/jquery.min.js"></script>
+        <script src="/static/js/sb-admin-2.min.js"></script>
+        <script src="/static/vendor/jquery/jquery.min.js"></script>
+        <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/static/js/jquery.easing.min.js"></script>
+        <script src="/static/vendor/chart.js/Chart.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+        <script>
+          document.body.addEventListener('htmx:configRequest', (event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+          })
+        </script>
+        {% if user.is_student %}
+        <script type="text/javascript" src="{% static 'js/htmx.min.js' %}"></script>
+        {%else%}
+        {% endif %}
+    {% endcompress %}
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %} CMS | Home{% endblock title %}
+{% block content %}
+<div class=" text-center px-4 py-3 my-5">
+    <h1 class="display-5 fw-bold text-dark">College Management System</h1>
+    <div class="col-lg-6 mx-auto container">
+		<p class="lead mb-4 text-dark">Test your skills and become a master.</p>
+	  	<p class="lead text-dark">We organize quizzes on various topics.</p>
+		<p class="lead text-dark">Sign up if you haven't already and get access to millions of quizzes on the topic of your interest.</p>
+    </div>
+  </div>
+{% endblock %}
+
+  
+<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+	<div class="mb-4">
+	<a href="{% url 'student_signup' %}" class="btn btn-primary" role="button">Sign up as Student</a>
+	<a href="{% url 'teacher_signup' %}" class="btn btn-primary" role="button">Sign up as Teacher</a>
+	<a href="{% url 'adminpage_signup' %}" class="btn btn-primary" role="button">Sign up as Admin</a>
+	</div>
+</div>

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags humanize %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <h2 class="mb-3">{{ quiz.name }} Results</h2>
+  
+  <div class="card" id="printJS-form">
+    <div class="card-header">
+      <strong>Taken Quizzes</strong>
+      <span class="badge badge-pill badge-primary float-right text-white">Average Score: {{ quiz_score.average_score|default_if_none:0.0 }}</span>
+    </div>
+    <table class="table mb-0" >
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Date</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for taken_quiz in taken_quizzes %}
+          <tr>
+            <td>{{ taken_quiz.student.user.username }}</td>
+            <td>{{ taken_quiz.date | time}}</td> <!--| naturaltime   -->
+            <td>{{ taken_quiz.score }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="card-footer text-muted">
+      Total respondents: <strong>{{ total_taken_quizzes }}</strong>
+    </div>
+  </div>
+  <div id="printJS-form"></div>
+  <div id="editor"></div><br>
+  <button class="btn btn-primary" id="printpdf">PRINT RESULT</button>
+</div>
+
+  <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.2.61/jspdf.min.js'></script>
+  <script id="rendered-js" >
+  var doc = new jsPDF();
+  var specialElementHandlers = {
+  '#editor': function (element, renderer) {
+    return true;
+  } };
+
+
+  $('#printpdf').click(function () {
+  doc.fromHTML($('#printJS-form').html(), 15, 15, {
+    'width': 170,
+    'elementHandlers': specialElementHandlers });
+
+  doc.save('Result.pdf');
+  });
+  </script> -->
+{% endblock %}
